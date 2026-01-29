@@ -1285,6 +1285,10 @@ section {
   padding-left: 10px;
 }
 
+.breadcrumbs ol li a {
+  color: #583ABE;
+}
+
 .breadcrumbs ol li+li::before {
   display: inline-block;
   padding-right: 10px;
