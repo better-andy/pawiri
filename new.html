@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link href="assets/css/new.css" rel="stylesheet" />
+  </head>
+  <body>
+    <section class="hero">
+      <canvas id="network"></canvas>
+      <div class="hero-content">
+        <!-- your text / buttons here -->
+      </div>
+    </section>
+    <div class="ball-container">
+      <img src="assets//img/8.webp" alt="Rotating Ball" class="rotating-ball" />
+    </div>
+  </body>
+</html>
+
+<script>
+  window.addEventListener("mousemove", (e) => {
+    nodes[0].x = e.clientX;
+    nodes[0].y = e.clientY;
+  });
+
+  const canvas = document.getElementById("network");
+  const ctx = canvas.getContext("2d");
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  const POINTS = 90;
+  const MAX_DIST = 140;
+
+  const nodes = Array.from({ length: POINTS }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 0.3,
+    vy: (Math.random() - 0.5) * 0.3,
+  }));
+
+  // FACE POSITION (adjust manually)
+  const faceX = canvas.width * 0.55;
+  const faceY = canvas.height * 0.5;
+  const faceRadius = 180;
+
+  // Create blur mask
+  const gradient = ctx.createRadialGradient(
+    faceX,
+    faceY,
+    40,
+    faceX,
+    faceY,
+    faceRadius
+  );
+
+  gradient.addColorStop(0, "rgba(0,0,0,0.85)");
+  gradient.addColorStop(0.5, "rgba(0,0,0,0.4)");
+  gradient.addColorStop(1, "rgba(0,0,0,0)");
+
+  ctx.globalCompositeOperation = "destination-out";
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalCompositeOperation = "source-over";
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    nodes.forEach((a) => {
+      a.x += a.vx;
+      a.y += a.vy;
+
+      if (a.x < 0 || a.x > canvas.width) a.vx *= -1;
+      if (a.y < 0 || a.y > canvas.height) a.vy *= -1;
+
+      nodes.forEach((b) => {
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < MAX_DIST) {
+          ctx.strokeStyle = `rgba(255,255,255,${1 - d / MAX_DIST})`;
+          ctx.lineWidth = 0.7;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      });
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
