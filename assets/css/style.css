@@ -469,6 +469,12 @@ h6 {
   }
 }
 
+@media screen and (max-width: 600px) {
+  #network {
+    display: none;
+  }
+}
+
 /*--------------------------------------------------------------
 # Sections General
 --------------------------------------------------------------*/
@@ -1257,6 +1263,28 @@ section {
     transform: rotate(360deg);
   }
 }
+
+
+
+/*--------------------------------------------------------------
+# details page form
+--------------------------------------------------------------*/
+
+.details{
+  padding-bottom: 40px;
+  background: #060129;
+}
+
+.form-box {
+  text-align: left;
+  border-radius: 8px;
+  padding: 80px 20px;
+  transition: all ease-in-out 0.3s;
+  background: #101434;
+}
+
+
+
 
 /*--------------------------------------------------------------
 # Breadcrumbs
