@@ -35,6 +35,20 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
+
+	<link
+      href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
+      rel="stylesheet"
+    />
+    <script type="module">
+      import { createChat } from "https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js";
+
+      createChat({
+        webhookUrl:
+          "https://unexcrescent-practically-charlee.ngrok-free.dev/webhook/c0322393-2262-41ff-924c-5591cb1c2538/chat",
+      });
+    </script>
+	  
   </head>
 
   <body>
@@ -253,6 +267,7 @@
     
   </body>
 </html>
+
 
 
 
