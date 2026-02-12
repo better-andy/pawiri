@@ -273,15 +273,16 @@
                 </div>
 
                 <div class="post-content d-flex flex-column">
-                  <h3 class="post-title">Invoice Data Automation</h3>
+                  <h3 class="post-title">Questions Generator</h3>
                   <p>
-                    Let the AI agent process from your orders to invoices at a
-                    faster and accurate pace
+                    Let the AI create you questions from a pdf file you uploaded
+                    at faster and accurate pace
                   </p>
-
                   <hr />
-
-                  <a href="" class="readmore stretched-link"
+                  <a
+                    class="readmore stretched-link"
+                    data-bs-toggle="modal"
+                    href="#myModal"
                     ><span>Read More</span><i class="bi bi-arrow-right"></i
                   ></a>
                 </div>
@@ -551,6 +552,87 @@
     </footer>
     <!-- End Footer -->
 
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Question generator</h4>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <h6>
+              Fill the form below to generate the questions. <br />
+              <strong>Note : </strong> You will get the questions in the email
+              provided
+            </h6>
+            <form
+              role="form"
+              class="mt-2"
+              id="my_form"
+              enctype="multipart/form-data"
+            >
+              <div class="form-group mt-3">
+                <label for="cv" class="mb-1 text-muted"
+                  >Upload the file where questions will come from (PDFs
+                  ONLY)</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  name="book"
+                  id="cv"
+                  placeholder="Subject"
+                  required
+                />
+              </div>
+
+              <div class="form-group mt-3">
+                <label for="msg" class="mb-1 text-muted"
+                  >Enter Instructions</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="Message"
+                  id="msg"
+                  placeholder="Generate 10 multiple Questions from the first page only"
+                  required
+                />
+              </div>
+
+              <div class="form-group mt-3">
+                <label for="email" class="mb-1 text-muted">Enter Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  id="email"
+                  placeholder="Your Email"
+                  required
+                />
+              </div>
+
+              <div class="text-center mt-3">
+                <input
+                  type="submit"
+                  class="btn btn-outline-dark"
+                  value="Submit"
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <a
       href="#"
       class="back-to-top d-flex align-items-center justify-content-center"
@@ -568,6 +650,38 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+
+
+    <script>
+      const form = document.getElementById("my_form");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault(); // Stop page reload
+
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch(
+            "https://unexcrescent-practically-charlee.ngrok-free.dev/webhook/questions-gen",
+            {
+              method: "POST",
+              body: formData,
+            },
+          );
+
+          if (response.ok) {
+            alert("Message sent successfully! Please check your email");
+            form.reset();
+          } else {
+            alert("Failed to send message. Please try again.");
+          }
+        } catch (error) {
+          alert("Network error. Please check your connection.");
+          console.error(error);
+        }
+      });
+    </script>
+    
 
     <!--  MOVING LINES ON HERE SECTION OF THE IMAGE -->
 
@@ -629,5 +743,6 @@
     </script>
   </body>
 </html>
+
 
 
