@@ -36,6 +36,31 @@
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet" />
 
+	<style>
+	  .spinner {
+		width: 16px;
+		height: 16px;
+		border: 3px solid #fff;
+		border-top: 3px solid transparent;
+		border-radius: 50%;
+		display: inline-block;
+		margin-left: 8px;
+		animation: spin 0.7s linear infinite;
+		vertical-align: middle;
+	  }
+
+	  @keyframes spin {
+		to {
+		  transform: rotate(360deg);
+		}
+	  }
+
+	  button:disabled {
+		opacity: 0.7;
+		cursor: not-allowed;
+	  }
+	</style>  
+
 	<link
       href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
       rel="stylesheet"
@@ -166,11 +191,10 @@
                   ></textarea>
                 </div>
                 <div class="text-center mt-3">
-                  <input
-                    type="submit"
-                    class="btn btn-outline-light"
-                    value="Send"
-                  />
+                  <button type="submit" id="submitBtn" class="btn btn-outline-light">
+					<span id="btnText">Send</span>
+					<span id="spinner" class="spinner" style="display: none;"></span>
+				  </button>
                 </div>
                 <p id="result"></p>
               </form>
@@ -229,11 +253,11 @@
                   ></textarea>
                 </div>
                 <div class="text-center mt-3">
-                  <input
-                    type="submit"
-                    class="btn btn-outline-light"
-                    value="Send"
-                  />
+                 
+				 <button type="submit" id="submitBtn2" class="btn btn-outline-light">
+					<span id="btnText2">Send</span>
+					<span id="spinner2" class="spinner" style="display: none;"></span>
+				  </button>	
                 </div>
                 <p id="result"></p>
               </form>
@@ -299,10 +323,17 @@
 
     <script>
     const form = document.getElementById("my_form");
+	const submitBtn = document.getElementById("submitBtn");
+  	const spinner = document.getElementById("spinner");
+  	const btnText = document.getElementById("btnText");	
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault(); // Stop page reload
-
+					// 🔄 Start Spinner
+	    spinner.style.display = "inline-block";
+	    submitBtn.disabled = true;
+	    btnText.textContent = "Sending...";
+		
       const formData = new FormData(form);
 
       try {
@@ -327,16 +358,27 @@
       } catch (error) {
         alert("Network error. Please check your connection.");
         console.error(error);
-      }
+      }finally {
+		  // 🛑 Stop Spinner (runs for both success & error)
+		  spinner.style.display = "none";
+		  submitBtn.disabled = false;
+		  btnText.textContent = "Send";
+	  }
     });
 	</script>
 	  
     <script>
       const form2 = document.getElementById("cover_letter");
+	  const submitBtn22 = document.getElementById("submitBtn2");
+  	  const spinner22 = document.getElementById("spinner2");
+      const btnText22 = document.getElementById("btnText2");	
 
       form2.addEventListener("submit", async (e) => {
         e.preventDefault(); // Stop page reload
-
+			// 🔄 Start Spinner
+	    spinner22.style.display = "inline-block";
+	    submitBtn22.disabled = true;
+	    btnText22.textContent = "Sending...";
         const formData = new FormData(form2);
 
         try {
@@ -357,11 +399,18 @@
         } catch (error) {
           alert("Network error. Please check your connection.");
           console.error(error);
-        }
+        }finally {
+	      // 🛑 Stop Spinner (runs for both success & error)
+	      spinner22.style.display = "none";
+	      submitBtn22.disabled = false;
+	      btnText22.textContent = "Send";
+	    }
+		  
       });
     </script>    
   </body>
 </html>
+
 
 
 
